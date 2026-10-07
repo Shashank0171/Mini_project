@@ -1,0 +1,44 @@
+@startuml 05_Communication_Diagram
+
+skinparam backgroundColor white
+skinparam defaultFontName "Segoe UI"
+skinparam defaultFontSize 11
+skinparam shadowing false
+skinparam monochrome true
+skinparam objectAttributeIconSize 0
+skinparam dpi 200
+
+skinparam object {
+  BackgroundColor white
+  BorderColor black
+  FontColor black
+  ArrowColor black
+}
+
+object "<u>user : User</u>" as user
+object "<u>app : MobileApp</u>" as app
+object "<u>processor : ImageProcessor</u>" as processor
+object "<u>detector : ObjectDetection</u>" as detector
+object "<u>ocr : OCRService</u>" as ocr
+object "<u>scene : SceneDescription</u>" as scene
+object "<u>tts : TTSService</u>" as tts
+object "<u>voice : VoiceAssistant</u>" as voice
+object "<u>gps : GPSService</u>" as gps
+object "<u>sos : SOSService</u>" as sos
+object "<u>db : Database</u>" as db
+
+user --> app : "1: requestAssistance()\n2: captureImage()"
+app --> processor : "3: processImage()"
+processor --> detector : "4: detectObjects()"
+processor --> ocr : "5: extractText()"
+processor --> scene : "6: generateDescription()"
+detector --> tts : "7: speakObjectResult()"
+ocr --> tts : "8: speakTextResult()"
+scene --> tts : "9: speakSceneResult()"
+user --> app : "10: voiceCommand()"
+app --> voice : "11: processCommand()"
+app --> gps : "12: getLocation()"
+gps --> sos : "13: sendLocation()"
+sos --> db : "14: saveAlert()"
+
+@enduml

@@ -1,0 +1,95 @@
+@startuml 03_Object_Diagram
+
+skinparam backgroundColor white
+skinparam defaultFontName "Segoe UI"
+skinparam defaultFontSize 11
+skinparam shadowing false
+skinparam monochrome true
+skinparam objectAttributeIconSize 0
+skinparam dpi 200
+
+skinparam object {
+  BackgroundColor white
+  BorderColor black
+  FontColor black
+  ArrowColor black
+}
+
+object "<u>user1 : User</u>" as user1 {
+  userId = "U01"
+  name = "User"
+  email = "user@example.com"
+}
+
+object "<u>app1 : MobileApp</u>" as app1 {
+  platform = "Android"
+  status = "Active"
+}
+
+object "<u>image1 : Image</u>" as image1 {
+  source = "Camera"
+  format = "JPG"
+}
+
+object "<u>processor1 : ImageProcessor</u>" as processor1 {
+  status = "Processing"
+}
+
+object "<u>detector1 : ObjectDetection</u>" as detector1 {
+  model = "YOLOv8"
+  result = "Objects Detected"
+}
+
+object "<u>ocr1 : OCRService</u>" as ocr1 {
+  language = "English"
+  result = "Extracted Text"
+}
+
+object "<u>scene1 : SceneDescription</u>" as scene1 {
+  result = "Generated Description"
+}
+
+object "<u>tts1 : TTSService</u>" as tts1 {
+  output = "Speech"
+  language = "English"
+}
+
+object "<u>voice1 : VoiceAssistant</u>" as voice1 {
+  language = "English"
+  status = "Ready"
+}
+
+object "<u>gps1 : GPSService</u>" as gps1 {
+  location = "Current Location"
+  latitude = "17.385"
+  longitude = "78.4867"
+}
+
+object "<u>sos1 : SOSService</u>" as sos1 {
+  status = "Ready"
+}
+
+object "<u>db1 : Database</u>" as db1 {
+  status = "Connected"
+}
+
+' ============ Relationships ============
+user1 -- app1
+app1 -- image1
+app1 -- processor1
+
+processor1 -- detector1
+processor1 -- ocr1
+processor1 -- scene1
+
+detector1 -- tts1
+ocr1 -- tts1
+scene1 -- tts1
+
+app1 -- voice1
+app1 -- gps1
+gps1 -- sos1
+sos1 -- db1
+app1 -- db1
+
+@enduml

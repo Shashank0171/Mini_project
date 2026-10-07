@@ -1,0 +1,63 @@
+@startuml 07_State_Machine_Diagram
+
+skinparam backgroundColor white
+skinparam defaultFontName "Segoe UI"
+skinparam defaultFontSize 11
+skinparam shadowing false
+skinparam monochrome true
+skinparam dpi 200
+
+skinparam state {
+  BackgroundColor white
+  BorderColor black
+  FontColor black
+  ArrowColor black
+  StartColor black
+  EndColor black
+}
+
+[*] --> Idle
+
+state Idle : Application is ready\nAwaiting user input
+
+Idle --> Listening : voice command\ndetected
+Idle --> Navigation : navigation\nrequested
+Idle --> SOSProcessing : SOS requested
+
+state Listening : Listening for\nvoice input
+Listening --> Capturing : image capture\nrequested
+
+state Capturing : Capturing image\nfrom camera
+Capturing --> Processing : image captured
+
+state Processing : Processing image\nthrough AI models
+
+Processing --> ObjectDetection : object detection\nselected
+Processing --> OCRProcessing : read text\nselected
+Processing --> SceneDescriptionState : scene description\nselected
+
+state ObjectDetection : Running YOLOv8\nmodel
+ObjectDetection --> Speaking : detection\ncomplete
+
+state OCRProcessing : Running EasyOCR\nextraction
+OCRProcessing --> Speaking : text extraction\ncomplete
+
+state SceneDescriptionState : Running BLIP\nmodel
+SceneDescriptionState --> Speaking : description\ngenerated
+
+state Speaking : Converting result\nto speech output
+Speaking --> Idle : speech\ncompleted
+
+state Navigation : GPS Navigation\nactive
+Navigation --> Idle : navigation\ncompleted
+
+state SOSProcessing : Processing SOS\nrequest
+SOSProcessing --> LocationAcquired : GPS acquired
+
+state LocationAcquired : Location obtained\nfrom GPS
+LocationAcquired --> SOSSent : alert sent
+
+state SOSSent : SOS alert sent to\nemergency contact
+SOSSent --> Idle : notification\ncompleted
+
+@enduml

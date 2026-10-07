@@ -1,0 +1,93 @@
+@startuml 04_Sequence_Diagram
+
+skinparam backgroundColor white
+skinparam defaultFontName "Segoe UI"
+skinparam defaultFontSize 11
+skinparam shadowing false
+skinparam monochrome true
+skinparam dpi 200
+
+skinparam sequence {
+  ArrowColor black
+  ActorBorderColor black
+  LifeLineBorderColor black
+  LifeLineBackgroundColor white
+  ParticipantBorderColor black
+  ParticipantBackgroundColor white
+  ParticipantFontColor black
+  ActorBackgroundColor white
+  BoxBorderColor black
+  BoxBackgroundColor #F8F8F8
+  DividerBackgroundColor white
+  DividerBorderColor black
+  GroupBorderColor black
+  GroupBackgroundColor #F5F5F5
+}
+
+actor "User" as User
+participant "MobileApp" as App
+participant "ImageProcessor" as Proc
+participant "YOLOv8" as YOLO
+participant "EasyOCR" as OCR
+participant "BLIP" as BLIP
+participant "TTSService" as TTS
+participant "GPS /\nSOSService" as GPSSOS
+actor "Emergency\nContact" as EC
+
+== Image Processing Flow ==
+
+User -> App : requestAssistance()
+activate App
+
+User -> App : captureImage()
+
+App -> Proc : processImage(image)
+activate Proc
+
+Proc -> YOLO : detectObjects(image)
+activate YOLO
+YOLO --> Proc : detectedObjects
+deactivate YOLO
+
+Proc -> OCR : extractText(image)
+activate OCR
+OCR --> Proc : extractedText
+deactivate OCR
+
+Proc -> BLIP : generateSceneDescription(image)
+activate BLIP
+BLIP --> Proc : sceneDescription
+deactivate BLIP
+
+Proc -> TTS : convertResultToSpeech(result)
+activate TTS
+TTS --> App : audioResult
+deactivate TTS
+
+deactivate Proc
+
+App --> User : playAudio()
+deactivate App
+
+== SOS Emergency Flow ==
+
+User -> App : requestSOS()
+activate App
+
+App -> GPSSOS : getLocation()
+activate GPSSOS
+GPSSOS --> App : currentLocation
+deactivate GPSSOS
+
+App -> GPSSOS : sendSOS(location)
+activate GPSSOS
+
+GPSSOS -> EC : sendAlert(location)
+activate EC
+EC --> GPSSOS : alertReceived
+deactivate EC
+
+deactivate GPSSOS
+deactivate App
+
+@enduml

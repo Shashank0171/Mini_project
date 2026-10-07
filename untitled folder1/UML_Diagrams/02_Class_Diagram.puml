@@ -1,0 +1,131 @@
+@startuml 02_Class_Diagram
+
+skinparam backgroundColor white
+skinparam defaultFontName "Segoe UI"
+skinparam defaultFontSize 11
+skinparam shadowing false
+skinparam monochrome true
+skinparam classAttributeIconSize 0
+skinparam dpi 200
+skinparam guillemet false
+skinparam circledCharacterRadius 0
+skinparam CircledCharacterFontSize 0
+
+skinparam class {
+  BackgroundColor white
+  BorderColor black
+  FontColor black
+  ArrowColor black
+  AttributeFontColor black
+  StereotypeFontColor black
+}
+
+class User {
+  - userId : String
+  - name : String
+  - email : String
+  + register() : void
+  + login() : void
+  + requestAssistance() : void
+}
+
+class MobileApp {
+  - camera : Camera
+  - microphone : Microphone
+  - location : Location
+  + captureImage() : Image
+  + selectImage() : Image
+  + displayResult() : void
+  + playAudio() : void
+}
+
+class ImageProcessor {
+  - image : Image
+  - processingStatus : String
+  + processImage() : Result
+  + prepareImage() : Image
+}
+
+class ObjectDetection {
+  - model : YOLOv8
+  - detectedObjects : List
+  + detectObjects() : List
+  + identifyObjects() : List
+}
+
+class OCRService {
+  - language : String
+  - extractedText : String
+  + extractText() : String
+  + readText() : String
+}
+
+class SceneDescription {
+  - image : Image
+  - description : String
+  + generateDescription() : String
+}
+
+class TTSService {
+  - text : String
+  - voice : String
+  - language : String
+  + convertToSpeech() : Audio
+  + playSpeech() : void
+}
+
+class VoiceAssistant {
+  - language : String
+  - command : String
+  + listen() : String
+  + processCommand() : void
+  + respond() : void
+}
+
+class GPSService {
+  - latitude : Double
+  - longitude : Double
+  + getLocation() : Location
+  + navigate() : void
+}
+
+class SOSService {
+  - emergencyContact : String
+  - location : Location
+  - status : String
+  + sendSOS() : void
+  + sendLocation() : void
+  + notifyContact() : void
+}
+
+class Database {
+  - userData : Map
+  - preferences : Map
+  - history : List
+  - sosRecords : List
+  + saveData() : void
+  + retrieveData() : Object
+}
+
+' ============ Relationships ============
+User -- MobileApp
+User -- Database
+
+MobileApp -- ImageProcessor
+MobileApp -- VoiceAssistant
+MobileApp -- GPSService
+MobileApp -- SOSService
+
+ImageProcessor -- ObjectDetection
+ImageProcessor -- OCRService
+ImageProcessor -- SceneDescription
+
+ObjectDetection -- TTSService
+OCRService -- TTSService
+SceneDescription -- TTSService
+
+GPSService -- SOSService
+
+SOSService -- Database
+
+@enduml

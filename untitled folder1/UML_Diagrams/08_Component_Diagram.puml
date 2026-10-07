@@ -1,0 +1,78 @@
+@startuml 08_Component_Diagram
+
+skinparam backgroundColor white
+skinparam defaultFontName "Segoe UI"
+skinparam defaultFontSize 11
+skinparam shadowing false
+skinparam monochrome true
+skinparam dpi 200
+
+skinparam component {
+  BackgroundColor white
+  BorderColor black
+  FontColor black
+  ArrowColor black
+  StereotypeFontColor black
+}
+
+skinparam package {
+  BackgroundColor #FAFAFA
+  BorderColor black
+  FontColor black
+  StereotypeFontColor black
+}
+
+package "Frontend" {
+  [Flutter Mobile\nApplication] as FlutterApp
+  [Camera Module] as Camera
+  [Voice Assistance\nModule] as Voice
+}
+
+package "Processing Layer" {
+  [Image Processing\nAPI] as ImageAPI
+}
+
+package "AI / Vision Services" {
+  [YOLOv8 Object\nDetection] as YOLO
+  [EasyOCR] as OCR
+  [BLIP Scene\nDescription] as BLIP
+}
+
+package "Output" {
+  [Text-to-Speech\nEngine] as TTS
+}
+
+package "External Services" {
+  [GPS / Navigation\nService] as GPS
+  [SOS Notification\nService] as SOS
+}
+
+package "Data Layer" {
+  [Database] as DB
+}
+
+' ============ Relationships ============
+
+' Frontend connections
+FlutterApp --> Camera
+FlutterApp --> Voice
+FlutterApp --> ImageAPI
+
+' Processing to AI
+ImageAPI --> YOLO
+ImageAPI --> OCR
+ImageAPI --> BLIP
+
+' AI to Output
+YOLO --> TTS
+OCR --> TTS
+BLIP --> TTS
+
+' External services
+FlutterApp --> GPS
+GPS --> SOS
+
+' Data
+FlutterApp --> DB
+
+@enduml

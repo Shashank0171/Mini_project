@@ -1,0 +1,71 @@
+@startuml 06_Activity_Diagram
+
+skinparam backgroundColor white
+skinparam defaultFontName "Segoe UI"
+skinparam defaultFontSize 11
+skinparam shadowing false
+skinparam monochrome true
+skinparam dpi 200
+
+skinparam activity {
+  BackgroundColor white
+  BorderColor black
+  FontColor black
+  ArrowColor black
+  DiamondBackgroundColor white
+  DiamondBorderColor black
+}
+
+start
+
+:Open Application;
+
+:Login / Continue;
+
+:Choose Assistance Method;
+
+if (Assistance Method?) then (Voice Command)
+  :Listen to Voice Command;
+  :Process Voice Command;
+  :Execute Requested Function;
+else (Image Capture)
+  :Capture Image;
+  :Process Image;
+endif
+
+fork
+  :Object Detection\n(YOLOv8);
+  :Generate Object Result;
+fork again
+  :Read Text\n(EasyOCR);
+  :Generate Text Result;
+fork again
+  :Scene Description\n(BLIP);
+  :Generate Scene Result;
+end fork
+
+:Generate Speech;
+
+:Text-to-Speech;
+
+:Play Audio Result;
+
+if (GPS / SOS Required?) then (Yes)
+  :Get Current Location;
+
+  if (Service Type?) then (Navigation)
+    :Open GPS / Map;
+    :Provide Directions;
+  else (SOS)
+    :Send SOS Alert;
+    :Send Location;
+    :Notify Emergency Contact;
+  endif
+
+else (No)
+  :View Result;
+endif
+
+stop
+
+@enduml

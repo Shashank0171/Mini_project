@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+venv/
+.env
+*.pt
+*.pth
+
+# Flutter
+ai_mobile_assistant/.dart_tool/
+ai_mobile_assistant/.packages
+ai_mobile_assistant/build/
+ai_mobile_assistant/.flutter-plugins
+ai_mobile_assistant/.flutter-plugins-dependencies
+ai_mobile_assistant/.idea/
+ai_mobile_assistant/android/.gradle/
+ai_mobile_assistant/android/app/build/
+ai_mobile_assistant/android/build/
+ai_mobile_assistant/android/local.properties
+*.iml
+
+# Backend model files (too large for git)
+backend/models/*.pt
+backend/models/*.pth
+backend/yolov8*.pt
+backend/temp_*
+
+# HuggingFace cache
+.cache/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+*.swp
+*.swo

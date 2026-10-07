@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Based Mobile Assistant for Visually Impaired - Mini Project Report</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+  
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body {
+    font-family: 'Inter', sans-serif;
+    color: #1a1a2e;
+    line-height: 1.7;
+    background: #fff;
+  }
+  
+  @media print {
+    .page-break { page-break-before: always; }
+    body { font-size: 11pt; }
+    h1 { font-size: 22pt; }
+    h2 { font-size: 16pt; }
+    h3 { font-size: 13pt; }
+  }
+  
+  .container { max-width: 800px; margin: 0 auto; padding: 40px; }
+  
+  /* Cover Page */
+  .cover {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(135deg, #0B1426, #0D1B2A, #152A4A);
+    color: white;
+    padding: 60px 40px;
+  }
+  .cover h1 {
+    font-size: 36px;
+    font-weight: 800;
+    margin-bottom: 10px;
+    background: linear-gradient(90deg, #00E5FF, #00BFA5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .cover h2 {
+    font-size: 20px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 40px;
+  }
+  .cover .subtitle {
+    font-size: 14px;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 60px;
+  }
+  .cover .info {
+    font-size: 16px;
+    color: rgba(255,255,255,0.7);
+    line-height: 2;
+  }
+  .cover .dept {
+    margin-top: 40px;
+    padding: 20px 40px;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    font-size: 14px;
+    color: rgba(255,255,255,0.5);
+  }
+  
+  /* Section styles */
+  .section { padding: 40px 0; }
+  
+  h1 {
+    font-size: 28px;
+    font-weight: 800;
+    color: #0D1B2A;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid #00E5FF;
+    display: inline-block;
+  }
+  
+  h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #0F3460;
+    margin: 30px 0 15px;
+  }
+  
+  h3 {
+    font-size: 17px;
+    font-weight: 600;
+    color: #1B2838;
+    margin: 20px 0 10px;
+  }
+  
+  p { margin-bottom: 12px; font-size: 14px; }
+  
+  ul, ol { margin: 10px 0 15px 25px; font-size: 14px; }
+  li { margin-bottom: 6px; }
+  
+  .highlight-box {
+    background: linear-gradient(135deg, #f0f9ff, #e8f4ff);
+    border-left: 4px solid #00E5FF;
+    padding: 16px 20px;
+    border-radius: 0 8px 8px 0;
+    margin: 15px 0;
+    font-size: 14px;
+  }
+  
+  .tech-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 20px 0;
+  }
+  
+  .tech-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 18px;
+  }
+  .tech-card h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: #0F3460;
+    margin-bottom: 6px;
+  }
+  .tech-card p {
+    font-size: 13px;
+    color: #64748b;
+    margin: 0;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 13px;
+  }
+  th {
+    background: #0D1B2A;
+    color: white;
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+  }
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  tr:nth-child(even) { background: #f8fafc; }
+  
+  code {
+    background: #1e293b;
+    color: #00E5FF;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-family: 'Courier New', monospace;
+  }
+  
+  pre {
+    background: #0D1B2A;
+    color: #e2e8f0;
+    padding: 20px;
+    border-radius: 10px;
+    overflow-x: auto;
+    font-size: 12px;
+    line-height: 1.6;
+    margin: 15px 0;
+    font-family: 'Courier New', monospace;
+  }
+  
+  .feature-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px;
+    background: #f8fafc;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    border: 1px solid #e2e8f0;
+  }
+  .feature-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .feature-text h4 { font-size: 15px; font-weight: 600; color: #1a1a2e; }
+  .feature-text p { font-size: 13px; color: #64748b; margin: 4px 0 0; }
+  
+  .arch-diagram {
+    background: #f0f4ff;
+    border: 2px solid #c7d2fe;
+    border-radius: 16px;
+    padding: 30px;
+    text-align: center;
+    margin: 20px 0;
+    font-size: 14px;
+  }
+  .arch-layer {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 14px;
+    margin: 8px 0;
+    font-weight: 600;
+  }
+  .arch-arrow { font-size: 20px; color: #00BFA5; }
+  
+  .footer {
+    text-align: center;
+    padding: 20px;
+    color: #94a3b8;
+    font-size: 12px;
+    border-top: 1px solid #e2e8f0;
+    margin-top: 40px;
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER PAGE -->
+<div class="cover">
+  <div class="subtitle">Mini Project Report</div>
+  <h1>AI Based Mobile Assistant<br>for Visually Impaired Individuals</h1>
+  <h2>Smart Vision • Smart Glasses • Smart Stick</h2>
+  
+  <div class="info">
+    <p><strong>Project Type:</strong> Mini Project</p>
+    <p><strong>Technology:</strong> Flutter + Python + AI/ML</p>
+    <p><strong>Year:</strong> 2026</p>
+  </div>
+  
+  <div class="dept">
+    Department of Computer Science & Engineering
+  </div>
+</div>
+
+<!-- TABLE OF CONTENTS -->
+<div class="container page-break">
+  <h1>Table of Contents</h1>
+  <ol style="font-size: 16px; line-height: 2.5;">
+    <li>Abstract</li>
+    <li>Introduction</li>
+    <li>Problem Statement</li>
+    <li>Objectives</li>
+    <li>System Architecture</li>
+    <li>Technologies Used</li>
+    <li>Features & Modules</li>
+    <li>AI Models Used</li>
+    <li>Implementation Details</li>
+    <li>Code Structure</li>
+    <li>Key Source Code</li>
+    <li>Setup & Installation</li>
+    <li>Screenshots & Demo</li>
+    <li>Future Scope</li>
+    <li>Conclusion</li>
+    <li>References</li>
+  </ol>
+</div>
+
+<!-- 1. ABSTRACT -->
+<div class="container page-break">
+  <h1>1. Abstract</h1>
+  <div class="highlight-box">
+    This project presents an <strong>AI-based mobile assistant</strong> designed to empower visually impaired individuals with real-time environmental awareness. The system leverages <strong>YOLOv8</strong> for object detection, <strong>BLIP</strong> for scene description, <strong>Google ML Kit</strong> for text recognition (OCR), and <strong>OpenStreetMap</strong> for GPS navigation — all accessible through <strong>voice commands</strong> in English, Telugu, and Hindi.
+  </div>
+  <p>The mobile application is built using <strong>Flutter</strong> for cross-platform compatibility and communicates with a <strong>FastAPI Python backend</strong> that hosts the AI models. The app features continuous real-time object tracking, voice-guided navigation, emergency SOS with direct calling, and a fully accessible UI designed for users with visual impairments.</p>
+  <p>Currently implemented as a software solution (mobile app), this system is designed to be extended to <strong>smart glasses</strong> (for hands-free AI vision) and a <strong>smart stick</strong> (for obstacle detection via ultrasonic sensors) in future hardware iterations.</p>
+  
+  <h2>Keywords</h2>
+  <p>YOLOv8, BLIP, Object Detection, Scene Description, OCR, Flutter, FastAPI, Visually Impaired, Assistive Technology, Text-to-Speech, Speech Recognition, GPS Navigation, Smart Glasses, Smart Stick</p>
+</div>
+
+<!-- 2. INTRODUCTION -->
+<div class="container page-break">
+  <h1>2. Introduction</h1>
+  <p>According to the World Health Organization (WHO), approximately <strong>2.2 billion people</strong> worldwide have vision impairment. In India alone, over <strong>12 million people</strong> are blind. These individuals face significant challenges in daily activities such as identifying objects, reading text, navigating unfamiliar environments, and responding to emergencies.</p>
+  
+  <p>Traditional assistive tools like white canes and guide dogs provide limited information about the environment. With advances in <strong>artificial intelligence, computer vision, and mobile computing</strong>, it is now possible to build intelligent systems that can "see" for the user and communicate information through voice.</p>
+  
+  <p>This project develops an <strong>AI-powered mobile assistant</strong> that acts as a digital companion for visually impaired individuals. The system uses the smartphone's camera to detect objects, read text, and describe scenes — converting visual information into speech output in the user's preferred language.</p>
+  
+  <h2>Motivation</h2>
+  <ul>
+    <li>Existing solutions are either too expensive or limited in functionality</li>
+    <li>Smartphones are widely accessible, even to visually impaired users</li>
+    <li>Modern AI models can run efficiently on mobile devices or lightweight servers</li>
+    <li>Multilingual support is essential for Indian users</li>
+    <li>The software can later be integrated with hardware (smart glasses + smart stick)</li>
+  </ul>
+</div>
+
+<!-- 3. PROBLEM STATEMENT -->
+<div class="container page-break">
+  <h1>3. Problem Statement</h1>
+  <div class="highlight-box">
+    <strong>How can we leverage AI and mobile technology to provide real-time environmental awareness to visually impaired individuals in a cost-effective, multilingual, and accessible manner?</strong>
+  </div>
+  
+  <h2>Challenges Addressed</h2>
+  <table>
+    <tr><th>Challenge</th><th>Our Solution</th></tr>
+    <tr><td>Object identification</td><td>Real-time YOLOv8 detection with voice output</td></tr>
+    <tr><td>Reading printed text</td><td>Google ML Kit OCR with multilingual TTS</td></tr>
+    <tr><td>Understanding surroundings</td><td>BLIP AI scene captioning</td></tr>
+    <tr><td>Navigation in unknown areas</td><td>OpenStreetMap + OSRM voice navigation</td></tr>
+    <tr><td>Emergency situations</td><td>One-tap SOS with direct phone call</td></tr>
+    <tr><td>Language barriers</td><td>Support for English, Telugu, Hindi</td></tr>
+    <tr><td>Accessibility</td><td>Voice commands, large text, high contrast</td></tr>
+  </table>
+</div>
+
+<!-- 4. OBJECTIVES -->
+<div class="container">
+  <h1>4. Objectives</h1>
+  <ol>
+    <li><strong>Real-time Object Detection</strong> — Continuously identify objects in the camera feed using YOLOv8 and announce them via speech</li>
+    <li><strong>Text Recognition (OCR)</strong> — Extract and read text from images, documents, signs, and labels</li>
+    <li><strong>Scene Description</strong> — Generate natural language descriptions of the environment using BLIP AI</li>
+    <li><strong>Voice-Guided Navigation</strong> — Provide turn-by-turn navigation using OpenStreetMap without Google Maps</li>
+    <li><strong>Emergency SOS</strong> — Enable one-tap emergency calling to pre-configured contacts</li>
+    <li><strong>Multilingual Support</strong> — Full support for English, Telugu, and Hindi</li>
+    <li><strong>Accessibility-First Design</strong> — Voice commands, haptic feedback, large touch targets, high contrast mode</li>
+    <li><strong>Future Hardware Integration</strong> — Design architecture to extend to smart glasses and smart stick</li>
+  </ol>
+</div>
+
+<!-- 5. SYSTEM ARCHITECTURE -->
+<div class="container page-break">
+  <h1>5. System Architecture</h1>
+  
+  <div class="arch-diagram">
+    <div class="arch-layer" style="background: #e8f4ff;">📱 <strong>Flutter Mobile App</strong> (Frontend)<br><small>Camera • Voice • GPS • UI • Accessibility</small></div>
+    <div class="arch-arrow">⬇️ HTTP REST API ⬇️</div>
+    <div class="arch-layer" style="background: #fff3e0;">🖥️ <strong>FastAPI Python Server</strong> (Backend)<br><small>API Routes • Image Processing • Model Inference</small></div>
+    <div class="arch-arrow">⬇️ Model Loading ⬇️</div>
+    <div style="display: flex; gap: 12px;">
+      <div class="arch-layer" style="flex:1; background: #e8f5e9;">🔍 <strong>YOLOv8</strong><br><small>Object Detection</small></div>
+      <div class="arch-layer" style="flex:1; background: #fce4ec;">🖼️ <strong>BLIP</strong><br><small>Scene Caption</small></div>
+    </div>
+    <div style="display: flex; gap: 12px; margin-top: 8px;">
+      <div class="arch-layer" style="flex:1; background: #f3e5f5;">📝 <strong>ML Kit OCR</strong><br><small>Text Recognition</small></div>
+      <div class="arch-layer" style="flex:1; background: #e0f2f1;">🗺️ <strong>OSM + OSRM</strong><br><small>Navigation</small></div>
+    </div>
+  </div>
+  
+  <h2>Data Flow</h2>
+  <ol>
+    <li>User opens camera → App captures frame every 2.5 seconds</li>
+    <li>Image sent to FastAPI backend via HTTP POST</li>
+    <li>Backend runs YOLOv8 inference → Returns detected objects with confidence</li>
+    <li>App receives results → Converts to speech in user's language</li>
+    <li>Only speaks when detected objects change (avoids repetition)</li>
+  </ol>
+</div>
+
+<!-- 6. TECHNOLOGIES USED -->
+<div class="container page-break">
+  <h1>6. Technologies Used</h1>
+  
+  <div class="tech-grid">
+    <div class="tech-card">
+      <h4>🎯 Flutter 3.44</h4>
+      <p>Cross-platform mobile framework by Google. Used for building the entire mobile app with Material Design 3.</p>
+    </div>
+    <div class="tech-card">
+      <h4>🐍 Python + FastAPI</h4>
+      <p>High-performance async Python web framework. Hosts AI models and serves REST API endpoints.</p>
+    </div>
+    <div class="tech-card">
+      <h4>🔍 YOLOv8 (Ultralytics)</h4>
+      <p>State-of-the-art real-time object detection model. Detects 80+ object categories with high accuracy.</p>
+    </div>
+    <div class="tech-card">
+      <h4>🖼️ BLIP (Salesforce)</h4>
+      <p>Bootstrapping Language-Image Pre-training model. Generates natural language scene descriptions.</p>
+    </div>
+    <div class="tech-card">
+      <h4>📝 Google ML Kit</h4>
+      <p>On-device text recognition (OCR). Runs locally without internet for privacy and speed.</p>
+    </div>
+    <div class="tech-card">
+      <h4>🗺️ OpenStreetMap + OSRM</h4>
+      <p>Open-source mapping and routing. Provides turn-by-turn navigation without Google Maps.</p>
+    </div>
+    <div class="tech-card">
+      <h4>🔊 Flutter TTS + STT</h4>
+      <p>Text-to-Speech and Speech-to-Text engines for voice output and voice command input.</p>
+    </div>
+    <div class="tech-card">
+      <h4>📍 Geolocator</h4>
+      <p>GPS positioning with reverse geocoding via Nominatim API for location awareness.</p>
+    </div>
+  </div>
+  
+  <h2>Full Tech Stack</h2>
+  <table>
+    <tr><th>Category</th><th>Technology</th><th>Version</th></tr>
+    <tr><td>Frontend Framework</td><td>Flutter (Dart)</td><td>3.44.4</td></tr>
+    <tr><td>Backend Framework</td><td>FastAPI (Python)</td><td>0.115.0</td></tr>
+    <tr><td>Object Detection</td><td>YOLOv8 (Ultralytics)</td><td>8.2.0</td></tr>
+    <tr><td>Scene Description</td><td>BLIP (HuggingFace Transformers)</td><td>4.44.0</td></tr>
+    <tr><td>OCR</td><td>Google ML Kit Text Recognition</td><td>0.14.0</td></tr>
+    <tr><td>Maps</td><td>OpenStreetMap (flutter_map)</td><td>7.0.2</td></tr>
+    <tr><td>Routing</td><td>OSRM (Open Source Routing Machine)</td><td>API</td></tr>
+    <tr><td>Text-to-Speech</td><td>flutter_tts</td><td>4.2.0</td></tr>
+    <tr><td>Speech-to-Text</td><td>speech_to_text</td><td>7.0.0</td></tr>
+    <tr><td>GPS</td><td>Geolocator</td><td>13.0.2</td></tr>
+    <tr><td>Deep Learning</td><td>PyTorch</td><td>2.4.0</td></tr>
+    <tr><td>Server</td><td>Uvicorn (ASGI)</td><td>0.30.0</td></tr>
+    <tr><td>State Management</td><td>Provider</td><td>6.1.5</td></tr>
+    <tr><td>Local Storage</td><td>SharedPreferences</td><td>2.5.3</td></tr>
+    <tr><td>Build System</td><td>Gradle (Kotlin DSL)</td><td>9.1.0</td></tr>
+    <tr><td>Android SDK</td><td>Android API</td><td>36</td></tr>
+  </table>
+</div>
+
+<!-- 7. FEATURES & MODULES -->
+<div class="container page-break">
+  <h1>7. Features & Modules</h1>
+  
+  <div class="feature-box">
+    <div class="feature-icon" style="background: #e0f7fa;">👁️</div>
+    <div class="feature-text">
+      <h4>1. Real-Time Object Detection</h4>
+      <p>Always-on camera tracking using YOLOv8. Captures frames every 2.5s, detects objects (persons, vehicles, furniture, electronics, etc.), and announces them via speech. Only speaks when detected objects change to avoid repetition. Supports pause/resume tracking.</p>
+    </div>
+  </div>
+  
+  <div class="feature-box">
+    <div class="feature-icon" style="background: #e8f5e9;">📖</div>
+    <div class="feature-text">
+      <h4>2. Text Reader (OCR)</h4>
+      <p>Captures text from camera using Google ML Kit's on-device text recognition. Works offline. Reads signs, labels, documents, medicine names, etc. Output is spoken aloud in the user's language.</p>
+    </div>
+  </div>
+  
+  <div class="feature-box">
+    <div class="feature-icon" style="background: #fff3e0;">🌄</div>
+    <div class="feature-text">
+      <h4>3. Scene Description</h4>
+      <p>Uses BLIP (Salesforce) to generate natural language descriptions of the entire scene. Example: "A person sitting at a desk with a laptop computer." Helps users understand their complete surroundings.</p>
+    </div>
+  </div>
+  
+  <div class="feature-box">
+    <div class="feature-icon" style="background: #f3e5f5;">🧭</div>
+    <div class="feature-text">
+      <h4>4. GPS Navigation</h4>
+      <p>Voice-guided turn-by-turn navigation using OpenStreetMap and OSRM routing engine. Place search via Nominatim. No Google Maps dependency. Provides distance, duration, and step-by-step voice instructions.</p>
+    </div>
+  </div>
+  
+  <div class="feature-box">
+    <div class="feature-icon" style="background: #ffebee;">🆘</div>
+    <div class="feature-text">
+      <h4>5. Emergency SOS</h4>
+      <p>One-tap SOS button that directly calls the emergency contact. Users can add multiple emergency contacts with name, phone, and relationship. Pulsing animated button for quick access.</p>
+    </div>
+  </div>
+  
+  <div class="feature-box">
+    <div class="feature-icon" style="background: #e8eaf6;">⚙️</div>
+    <div class="feature-text">
+      <h4>6. Settings & Accessibility</h4>
+      <p>Language selection (EN/TE/HI), speech rate control, large text mode, high contrast mode, voice feedback toggle, emergency contact management. All settings persist locally.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 8. AI MODELS USED -->
+<div class="container page-break">
+  <h1>8. AI Models Used</h1>
+  
+  <h2>8.1 YOLOv8 — Object Detection</h2>
+  <div class="highlight-box">
+    <strong>Model:</strong> YOLOv8n (Nano) by Ultralytics<br>
+    <strong>Task:</strong> Real-time object detection<br>
+    <strong>Classes:</strong> 80 COCO categories (person, car, chair, phone, laptop, etc.)<br>
+    <strong>Speed:</strong> ~40ms per image on CPU (MacBook M-series)
+  </div>
+  <p>YOLO (You Only Look Once) v8 is a state-of-the-art single-shot object detector. Unlike two-stage detectors, YOLOv8 processes the entire image in one forward pass, making it extremely fast for real-time applications. The model outputs bounding boxes with class labels and confidence scores.</p>
+  
+  <h3>How it works in our app:</h3>
+  <ol>
+    <li>Camera captures frame → sent as multipart image to backend</li>
+    <li>FastAPI receives image → passes to YOLOv8 model</li>
+    <li>Model detects objects → returns list of {name, confidence}</li>
+    <li>App filters by confidence threshold (≥50%)</li>
+    <li>Results converted to speech: "I can see a person and a laptop"</li>
+  </ol>
+  
+  <h2>8.2 BLIP — Scene Description</h2>
+  <div class="highlight-box">
+    <strong>Model:</strong> Salesforce/blip-image-captioning-base<br>
+    <strong>Task:</strong> Image-to-text captioning<br>
+    <strong>Architecture:</strong> Vision Transformer + Language Model<br>
+    <strong>Output:</strong> Natural language scene description
+  </div>
+  <p>BLIP (Bootstrapping Language-Image Pre-training) uses a Vision Transformer to understand image content and a language model to generate descriptive captions. It was trained on millions of image-text pairs and can describe complex scenes naturally.</p>
+  
+  <h2>8.3 Google ML Kit — OCR</h2>
+  <div class="highlight-box">
+    <strong>Model:</strong> Google ML Kit Text Recognition<br>
+    <strong>Task:</strong> Optical Character Recognition<br>
+    <strong>Runs:</strong> On-device (no internet needed)<br>
+    <strong>Languages:</strong> Latin script (English) + Devanagari (Hindi)
+  </div>
+  <p>ML Kit uses deep learning models optimized for mobile devices to detect and recognize text in images. It runs entirely on-device for privacy and speed.</p>
+</div>
+
+<!-- 9. IMPLEMENTATION DETAILS -->
+<div class="container page-break">
+  <h1>9. Implementation Details</h1>
+  
+  <h2>9.1 Backend Server (Python)</h2>
+  <pre>
+# main.py - FastAPI Backend
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from routes.detection import router as detection_router
+from routes.scene import router as scene_router
+
+app = FastAPI(title="AI Mobile Assistant API")
+app.add_middleware(CORSMiddleware, allow_origins=["*"])
+app.include_router(detection_router)
+app.include_router(scene_router)
+
+@app.get("/")
+def health():
+    return {"status": "AI Mobile Assistant API running"}
+  </pre>
+  
+  <h2>9.2 YOLOv8 Detection Service</h2>
+  <pre>
+# services/detection_service.py
+from ultralytics import YOLO
+
+class DetectionService:
+    _instance = None
+    
+    def __init__(self):
+        self.model = YOLO("yolov8n.pt")  # Auto-downloads
+        self.confidence_threshold = 0.5
+    
+    def detect(self, image_path: str):
+        results = self.model(image_path)
+        detections = []
+        for result in results:
+            for box in result.boxes:
+                conf = float(box.conf[0])
+                if conf >= self.confidence_threshold:
+                    cls = int(box.cls[0])
+                    name = result.names[cls]
+                    detections.append({
+                        "name": name, 
+                        "confidence": round(conf, 2)
+                    })
+        return detections
+  </pre>
+  
+  <h2>9.3 Flutter Object Detection (Always Tracking)</h2>
+  <pre>
+// Continuous tracking - captures every 2.5 seconds
+Timer.periodic(Duration(milliseconds: 2500), (_) {
+  if (_isTracking && !_isProcessing) {
+    _captureAndDetect();  // Take picture → Send to API → Speak results
+  }
+});
+
+// Only speaks when objects change
+final currentObjects = results.map((r) => r.name).toList()..sort();
+if (spokenKey != _lastSpoken && results.isNotEmpty) {
+  _lastSpoken = spokenKey;
+  _voiceService.speak(
+    AppLocalizations.buildDetectionSentence(objectNames)
+  );
+}
+  </pre>
+  
+  <h2>9.4 SOS Direct Call</h2>
+  <pre>
+// Directly calls emergency contact
+Future&lt;void&gt; _callContact(EmergencyContact contact) async {
+  final uri = Uri(scheme: 'tel', path: contact.phone);
+  if (await canLaunchUrl(uri)) {
+    _voiceService.speak('Calling ${contact.name}');
+    await launchUrl(uri);
+  }
+}
+  </pre>
+</div>
+
+<!-- 10. CODE STRUCTURE -->
+<div class="container page-break">
+  <h1>10. Project Structure</h1>
+  <pre>
+ai_mobile_assistant/
+├── lib/
+│   ├── main.dart                    # App entry point & routes
+│   ├── theme/
+│   │   └── app_theme.dart           # Modern dark theme
+│   ├── screens/
+│   │   ├── splash_screen.dart       # Animated splash
+│   │   ├── home_screen.dart         # Feature dashboard
+│   │   ├── object_detection_screen.dart  # Always-on tracking
+│   │   ├── text_reader_screen.dart  # OCR camera
+│   │   ├── scene_description_screen.dart # AI captioning
+│   │   ├── gps_screen.dart          # Map navigation
+│   │   ├── sos_screen.dart          # Emergency call
+│   │   ├── settings_screen.dart     # Preferences
+│   │   └── language_selection_screen.dart
+│   ├── services/
+│   │   ├── api_service.dart         # HTTP client
+│   │   ├── voice_service.dart       # Text-to-Speech
+│   │   ├── speech_service.dart      # Speech-to-Text
+│   │   ├── location_service.dart    # GPS + Geocoding
+│   │   ├── navigation_service.dart  # OSRM routing
+│   │   ├── storage_service.dart     # SharedPreferences
+│   │   └── sos_service.dart         # Emergency logic
+│   ├── models/
+│   │   ├── detection_result.dart
+│   │   ├── emergency_contact.dart
+│   │   └── app_language.dart
+│   ├── widgets/
+│   │   ├── feature_card.dart        # Glassmorphic cards
+│   │   ├── accessible_button.dart
+│   │   └── loading_widget.dart
+│   ├── localization/
+│   │   └── app_localizations.dart   # EN/TE/HI translations
+│   └── utils/
+│       ├── constants.dart
+│       └── permissions.dart
+├── assets/images/
+│   └── app_logo.jpg
+├── android/
+├── pubspec.yaml
+│
+backend/
+├── main.py                          # FastAPI app
+├── requirements.txt
+├── routes/
+│   ├── detection.py                 # POST /detect
+│   └── scene.py                     # POST /describe
+├── services/
+│   ├── detection_service.py         # YOLOv8
+│   └── scene_service.py             # BLIP
+└── models/                          # AI model weights
+  </pre>
+</div>
+
+<!-- 11. SETUP -->
+<div class="container page-break">
+  <h1>11. Setup & Installation</h1>
+  
+  <h2>Prerequisites</h2>
+  <ul>
+    <li>Flutter SDK 3.44+</li>
+    <li>Python 3.10+</li>
+    <li>Android SDK 36</li>
+    <li>8GB+ RAM (for AI models)</li>
+  </ul>
+  
+  <h2>Backend Setup</h2>
+  <pre>
+cd backend
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+uvicorn main:app --host 0.0.0.0 --port 8000
+  </pre>
+  <p>YOLOv8 model auto-downloads on first run (~6MB). BLIP model downloads from HuggingFace (~1GB).</p>
+  
+  <h2>Flutter App Setup</h2>
+  <pre>
+cd ai_mobile_assistant
+flutter pub get
+# Update apiBaseUrl in lib/utils/constants.dart
+flutter build apk --debug
+# APK at: build/app/outputs/flutter-apk/app-debug.apk
+  </pre>
+  
+  <h2>Connecting App to Backend</h2>
+  <p>Both devices must be on the same WiFi. Set <code>apiBaseUrl</code> to your computer's IP address (e.g., <code>http://192.168.0.102:8000</code>).</p>
+</div>
+
+<!-- 12. FUTURE SCOPE -->
+<div class="container page-break">
+  <h1>12. Future Scope</h1>
+  
+  <h2>Hardware Integration</h2>
+  <div class="tech-grid">
+    <div class="tech-card">
+      <h4>🕶️ Smart Glasses</h4>
+      <p>Camera-equipped glasses with bone-conduction speakers. AI processes what the user sees and describes it through audio — completely hands-free.</p>
+    </div>
+    <div class="tech-card">
+      <h4>🦯 Smart Stick</h4>
+      <p>Walking cane with ultrasonic sensors, vibration motors, and GPS. Detects obstacles at ground level and provides haptic feedback for safe navigation.</p>
+    </div>
+  </div>
+  
+  <h2>Software Enhancements</h2>
+  <ul>
+    <li><strong>Currency Recognition</strong> — Identify Indian currency notes (₹10–₹2000)</li>
+    <li><strong>Face Recognition</strong> — Recognize known people and announce their names</li>
+    <li><strong>Color Detection</strong> — Identify colors of clothes and objects</li>
+    <li><strong>Shake to SOS</strong> — Shake phone to trigger emergency call</li>
+    <li><strong>Offline AI Models</strong> — Run YOLOv8 on-device using TensorFlow Lite</li>
+    <li><strong>Obstacle Distance</strong> — Estimate distance to objects using depth estimation</li>
+    <li><strong>Medicine Reminder</strong> — Voice-based medication scheduling</li>
+    <li><strong>More Languages</strong> — Kannada, Tamil, Malayalam, Bengali support</li>
+  </ul>
+</div>
+
+<!-- 13. CONCLUSION -->
+<div class="container">
+  <h1>13. Conclusion</h1>
+  <p>This project successfully demonstrates how <strong>artificial intelligence and mobile technology</strong> can be combined to create an accessible, affordable, and practical assistant for visually impaired individuals.</p>
+  
+  <p>The key achievements of this project include:</p>
+  <ul>
+    <li>✅ Real-time object detection with continuous camera tracking</li>
+    <li>✅ AI-powered scene description using BLIP</li>
+    <li>✅ On-device text recognition (OCR) for offline use</li>
+    <li>✅ Voice-guided GPS navigation without Google Maps</li>
+    <li>✅ Emergency SOS with one-tap direct calling</li>
+    <li>✅ Trilingual support (English, Telugu, Hindi)</li>
+    <li>✅ Fully voice-controlled interface</li>
+    <li>✅ Modern, accessible UI with dark theme</li>
+  </ul>
+  
+  <p>The software architecture is designed to seamlessly extend to hardware devices — <strong>smart glasses</strong> for hands-free vision and a <strong>smart stick</strong> for obstacle detection — making this a comprehensive assistive technology platform.</p>
+  
+  <h2>14. References</h2>
+  <ol>
+    <li>Ultralytics YOLOv8 — https://github.com/ultralytics/ultralytics</li>
+    <li>Salesforce BLIP — https://huggingface.co/Salesforce/blip-image-captioning-base</li>
+    <li>Google ML Kit — https://developers.google.com/ml-kit</li>
+    <li>Flutter — https://flutter.dev</li>
+    <li>FastAPI — https://fastapi.tiangolo.com</li>
+    <li>OpenStreetMap — https://www.openstreetmap.org</li>
+    <li>OSRM — https://project-osrm.org</li>
+    <li>WHO Vision Impairment Report — https://www.who.int/news-room/fact-sheets/detail/blindness-and-visual-impairment</li>
+    <li>PyTorch — https://pytorch.org</li>
+    <li>HuggingFace Transformers — https://huggingface.co/docs/transformers</li>
+  </ol>
+  
+  <div class="footer">
+    AI Based Mobile Assistant for Visually Impaired Individuals — Mini Project Report 2026
+  </div>
+</div>
+
+</body>
+</html>

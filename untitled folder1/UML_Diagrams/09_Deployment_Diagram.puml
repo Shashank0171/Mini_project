@@ -1,0 +1,96 @@
+@startuml 09_Deployment_Diagram
+
+skinparam backgroundColor white
+skinparam defaultFontName "Arial"
+skinparam defaultFontSize 10
+skinparam shadowing true
+skinparam monochrome true
+skinparam dpi 150
+
+skinparam node {
+  BackgroundColor white
+  BorderColor black
+}
+
+skinparam database {
+  BackgroundColor white
+  BorderColor black
+}
+
+skinparam note {
+  BackgroundColor white
+  BorderColor black
+  FontSize 8
+}
+
+' ============ CLIENT DEVICES (Top Row) ============
+node "Flutter Mobile App\n(Client)" as N1
+node "Camera Module\n(Image Capture)" as N2
+node "Microphone\n(Voice Input)" as N3
+node "Speaker\n(Audio Output)" as N4
+node "GPS Module\n(Location)" as N5
+node "SOS Button\n(Emergency)" as N6
+
+' ============ APPLICATION SERVER ============
+node "Application Server\n(Smart Assistive Vision System)" as AppServer
+
+N1 -down-> AppServer
+N2 -down-> AppServer
+N3 -down-> AppServer
+N4 -down-> AppServer
+N5 -down-> AppServer
+N6 -down-> AppServer
+
+' ============ SIDE SERVICES ============
+node "Notification Service\n(SMS / Alerts)" as NotifSvc
+node "GPS / Map Service\n(Google Maps API)" as GPSSvc
+
+NotifSvc -right-> AppServer
+AppServer <-right-> GPSSvc
+
+' ============ AI PROCESSING ENGINE ============
+node "AI Processing Engine\n(Python Backend)" as AI
+
+AppServer -down-> AI
+
+note right of AI
+  Server Configuration
+  Processor: Intel i5 / GPU
+  RAM: 16GB
+  Storage: 512GB SSD
+  OS: Ubuntu 22.04 LTS
+end note
+
+' ============ AI MODELS ============
+node "YOLOv8\n(Object Detection)" as Y
+node "EasyOCR\n(Text Recognition)" as O
+node "BLIP\n(Scene Description)" as B
+node "TTS Service\n(Text-to-Speech)" as T
+
+AI -down-> Y
+AI -down-> O
+AI -down-> B
+AI -down-> T
+
+' ============ NETWORK ============
+node "Network Interface\n(Internet / LAN)" as Net
+
+AI -down-> Net
+
+note right of Net
+  Network Type
+  TCP/IP Connection
+  HTTPS / REST API
+end note
+
+' ============ DATABASE ============
+database "Database Server\n(Firebase / SQLite)" as DB
+
+Net -down-> DB
+
+' ============ BACKUP ============
+node "Backup Storage\n(Cloud / Local)" as Bk
+
+DB -down-> Bk
+
+@enduml

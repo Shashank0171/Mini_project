@@ -1,0 +1,80 @@
+@startuml 01_Use_Case_Diagram
+
+skinparam backgroundColor white
+skinparam defaultFontName "Arial"
+skinparam defaultFontSize 9
+skinparam shadowing false
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam dpi 150
+
+skinparam usecase {
+  BackgroundColor white
+  BorderColor black
+  FontColor black
+  FontSize 9
+}
+
+skinparam actor {
+  BackgroundColor white
+  BorderColor black
+  FontColor black
+  FontSize 9
+}
+
+skinparam rectangle {
+  BorderColor black
+  FontSize 10
+  FontStyle bold
+}
+
+actor "User\n(Visually Impaired\nIndividual)" as U
+
+rectangle "Smart Assistive Vision System" {
+
+  usecase "1. Register" as UC1
+  usecase "2. Login" as UC2
+  usecase "3. Manage Profile\n- Update Profile\n- Manage Preferences" as UC3
+  usecase "4. Capture Image\n- Camera Capture\n- Select from Gallery" as UC4
+  usecase "5. Process Image\n- Prepare Image\n- Send to AI Models" as UC5
+  usecase "6. Object Detection\n- YOLOv8 Model\n- Identify Objects" as UC6
+  usecase "7. Read Text (OCR)\n- EasyOCR\n- Extract Text" as UC7
+  usecase "8. Scene Description\n- BLIP Model\n- Generate Description" as UC8
+  usecase "9. Generate Speech\n- Text-to-Speech\n- Play Audio Result" as UC9
+  usecase "10. Voice Assistance\n- Listen to Command\n- Process & Execute" as UC10
+  usecase "11. GPS Navigation\n- Get Location\n- Provide Directions" as UC11
+  usecase "12. Trigger SOS\n- Send SOS Alert\n- Notify Contact" as UC12
+  usecase "13. View / Save Results\n- View Result History\n- Save Results" as UC13
+
+}
+
+actor "Emergency\nContact" as EC
+actor "GPS / Map\nService" as GPS
+actor "Notification /\nSMS Service" as SMS
+
+U -- UC1
+U -- UC2
+U -- UC3
+U -- UC4
+U -- UC10
+U -- UC11
+U -- UC12
+U -- UC13
+
+UC4 ..> UC5 : <<include>>
+UC5 ..> UC6 : <<include>>
+UC5 ..> UC7 : <<include>>
+UC5 ..> UC8 : <<include>>
+
+UC6 ..> UC9 : <<include>>
+UC7 ..> UC9 : <<include>>
+UC8 ..> UC9 : <<include>>
+
+UC5 ..> UC13 : <<include>>
+UC12 ..> UC11 : <<include>>
+
+SMS -- UC12
+EC -- UC12
+GPS -- UC11
+
+@enduml
